@@ -8,7 +8,7 @@
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/garzzsiu/garz-ai-cli.git
+git clone https://github.com/GarzZOfficial/garz-cli.git
 
 # 2. Masuk ke folder CLI
 cd garz-ai-cli/cli
