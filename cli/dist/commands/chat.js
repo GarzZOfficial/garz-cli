@@ -3,6 +3,7 @@ import inquirer from 'inquirer';
 import ora from 'ora';
 import axios from 'axios';
 import { store } from '../store.js';
+
 export async function chatCommand(userMessage) {
     // Check if authenticated
     const config = store.getConfig();
@@ -11,14 +12,28 @@ export async function chatCommand(userMessage) {
         console.log(chalk.cyan('  $ garz-ai-cli init'));
         process.exit(1);
     }
+
     // If message provided, use it directly
     if (userMessage) {
         await sendMessage(config.token, userMessage);
         return;
     }
+
     // Otherwise, start interactive chat
-    console.log(chalk.cyan('\n🤖 garz-ai Chat - Powered by Cerebras AI'));
-    console.log(chalk.gray('Ketik "exit" untuk keluar\n'));
+    // 🔥 TAMBAHAN ASCII ART & PENGGANTIAN NAMA CEREBRAS KE GARZ AI CLI
+    console.log(chalk.cyan(`
+ ██████╗  █████╗ ██████╗ ███████╗     ██████╗██╗     ██╗
+██╔════╝ ██╔══██╗██╔══██╗╚══███╔╝    ██╔════╝██║     ██║
+██║  ███╗███████║██████╔╝  ███╔╝     ██║     ██║     ██║
+██║   ██║██╔══██║██╔══██╗ ███╔╝      ██║     ██║     ██║
+╚██████╔╝██║  ██║██║  ██║███████╗    ╚██████╗███████╗██║
+ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝     ╚═════╝╚══════╝╚═╝
+    `));
+    console.log(chalk.gray('═'.repeat(60)));
+    console.log(chalk.cyan('🤖 Garz AI Chat - Powered by Garz AI CLI'));
+    console.log(chalk.gray('Ketik "exit" untuk keluar'));
+    console.log(chalk.gray('═'.repeat(60) + '\n'));
+
     let continueChat = true;
     while (continueChat) {
         const answers = await inquirer.prompt([
@@ -33,6 +48,7 @@ export async function chatCommand(userMessage) {
                 },
             },
         ]);
+
         const message = answers.message.trim();
         if (message.toLowerCase() === 'exit') {
             console.log(chalk.cyan('\nGoodbye! 👋\n'));
@@ -42,6 +58,7 @@ export async function chatCommand(userMessage) {
         await sendMessage(config.token, message);
     }
 }
+
 async function sendMessage(token, message) {
     const spinner = ora(chalk.cyan('Thinking...')).start();
     try {
@@ -62,6 +79,7 @@ async function sendMessage(token, message) {
             },
             timeout: 30000,
         });
+
         spinner.stop();
         if (response.data && response.data.choices && response.data.choices[0]) {
             const assistantMessage = response.data.choices[0].message.content;
