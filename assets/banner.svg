@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="260" viewBox="0 0 1200 260">
+  <defs>
+    <linearGradient id="g" x1="0%" x2="100%">
+      <stop offset="0%" stop-color="#111111"/>
+      <stop offset="100%" stop-color="#444444"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="260" rx="24" fill="#ffffff"/>
+
+  <text
+    x="600"
+    y="95"
+    text-anchor="middle"
+    font-family="Consolas, Menlo, Monaco, monospace"
+    font-size="58"
+    font-weight="700"
+    fill="url(#g)">
+GARZ AI CLI
+  </text>
+
+  <text
+    x="600"
+    y="145"
+    text-anchor="middle"
+    font-family="Consolas, Menlo, Monaco, monospace"
+    font-size="22"
+    fill="#666666">
+Terminal AI Chat Tool
+  </text>
+
+  <line
+    x1="260"
+    y1="175"
+    x2="940"
+    y2="175"
+    stroke="#e5e7eb"
+    stroke-width="2"/>
+
+  <text
+    x="600"
+    y="215"
+    text-anchor="middle"
+    font-family="Consolas, Menlo, Monaco, monospace"
+    font-size="18"
+    fill="#888888">
+Powered by Garz AI • Cerebras AI
+  </text>
+</svg>
