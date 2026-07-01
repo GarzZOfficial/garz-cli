@@ -20,8 +20,18 @@ export async function chatCommand(userMessage?: string): Promise<void> {
   }
 
   // Otherwise, start interactive chat
-  console.log(chalk.cyan('\n🤖 garz-ai Chat - Powered by Cerebras AI'));
-  console.log(chalk.gray('Ketik "exit" untuk keluar\n'));
+  console.log(chalk.cyan(`
+ ██████╗  █████╗ ██████╗ ███████╗     ██████╗██╗     ██╗
+██╔════╝ ██╔══██╗██╔══██╗╚══███╔╝    ██╔════╝██║     ██║
+██║  ███╗███████║██████╔╝  ███╔╝     ██║     ██║     ██║
+██║   ██║██╔══██║██╔══██╗ ███╔╝      ██║     ██║     ██║
+╚██████╔╝██║  ██║██║  ██║███████╗    ╚██████╗███████╗██║
+ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝     ╚═════╝╚══════╝╚═╝
+  `));
+  console.log(chalk.gray('═'.repeat(60)));
+  console.log(chalk.cyan('🤖 Garz AI Chat - Powered by Garz AI CLI'));
+  console.log(chalk.gray('Ketik "exit" untuk keluar'));
+  console.log(chalk.gray('═'.repeat(60) + '\n'));
 
   let continueChat = true;
 
@@ -66,7 +76,8 @@ async function sendMessage(token: string, message: string): Promise<void> {
       max_tokens: 1024,
     }, {
       headers: {
-        'Authorization': `Bearer ${process.env.CEREBRAS_API_KEY}`,
+        // 🔥 PERBAIKAN: Menggunakan token verifikasi dari store/website yang dilewatkan ke fungsi ini
+        'Authorization': `Bearer ${process.env.CEREBRAS_API_KEY || token}`,
         'Content-Type': 'application/json',
       },
       timeout: 30000,
@@ -84,7 +95,7 @@ async function sendMessage(token: string, message: string): Promise<void> {
   } catch (error: any) {
     spinner.fail();
     if (error.response?.status === 401) {
-      console.log(chalk.red('\n❌ API Key tidak valid'));
+      console.log(chalk.red('\n❌ Verifikasi Gagal: Token atau API Key tidak valid.'));
     } else if (error.code === 'ECONNABORTED') {
       console.log(chalk.red('\n❌ Request timeout - coba lagi'));
     } else {
