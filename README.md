@@ -1,106 +1,210 @@
+# ██████╗  █████╗ ██████╗ ███████╗     ██████╗██╗     ██╗
+# ██╔════╝ ██╔══██╗██╔══██╗╚══███╔╝    ██╔════╝██║     ██║
+# ██║  ███╗███████║██████╔╝  ███╔╝     ██║     ██║     ██║
+# ██║   ██║██╔══██║██╔══██╗ ███╔╝      ██║     ██║     ██║
+# ╚██████╔╝██║  ██║██║  ██║███████╗    ╚██████╗███████╗██║
+#  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝     ╚═════╝╚══════╝╚═╝
+
 # garz-ai-cli
 
-Terminal AI Chat Tool - CLI yang chat langsung dengan Cerebras AI dari terminal/CMD/Termux.
+> **Terminal AI Chat Tool** — Chat langsung dengan Garz AI / Cerebras AI dari Terminal, CMD, PowerShell, Linux, macOS, maupun Termux.
 
-## Setup Cepat
+---
 
-### 1. Install CLI
+# 🚀 Quick Installation
 
 ```bash
-npm install -g garz-ai-cli
+# 1. Clone repository
+git clone https://github.com/garzzsiu/garz-ai-cli.git
+
+# 2. Masuk ke folder CLI
+cd garz-ai-cli/cli
+
+# 3. Install dependencies (PENTING!)
+npm install
+
+# 4. Build project
+npm run build
+
+# 5. Link secara global
+npm link
+
+# 6. Test CLI
+garz-ai-cli help
+garz-ai-cli init
+garz-ai-cli chat
 ```
 
-### 2. Login
+---
+
+# Authentication
+
+Jalankan:
 
 ```bash
 garz-ai-cli init
 ```
 
-- Akan generate kode (GRZ-ABC123)
-- Copy kode ke: https://garz-ai.vercel.app/cli
-- Klik "Validasi & Otorisasi Node"
-- Terminal akan approve otomatis
+CLI akan membuat kode seperti:
 
-### 3. Chat!
+```
+GRZ-ABC123
+```
+
+Lalu buka:
+
+```
+https://garz-ai.vercel.app/cli
+```
+
+Masukkan kode tersebut kemudian klik:
+
+```
+Validasi & Otorisasi Node
+```
+
+Terminal akan otomatis terhubung.
+
+---
+
+# Start Chat
+
+Interactive Chat
 
 ```bash
 garz-ai-cli chat
 ```
 
-## API Integration
+Single Message
 
-CLI menggunakan API dari website kak yang sudah di-deploy:
+```bash
+garz-ai-cli chat "Halo Garz AI"
+```
 
-**Endpoints yang digunakan:**
-- `GET /api/cli-auth?action=check_code_status&code=GRZ-ABC` - Poll status kode
-- `POST /api/cli-auth` dengan `action=approve_session` - Website approve kode
+---
 
-**Chat dengan Cerebras:**
-- CLI kirim message ke Cerebras API menggunakan `CEREBRAS_API_KEY`
-- Response ditampilkan di terminal
+# Commands
 
-## Project Structure
+```bash
+garz-ai-cli help
+
+garz-ai-cli init
+
+garz-ai-cli init --code=GRZ-ABC123
+
+garz-ai-cli chat
+
+garz-ai-cli chat "Hello World"
+```
+
+---
+
+# API Integration
+
+CLI menggunakan endpoint dari Garz AI.
+
+### Authentication
+
+```
+GET /api/cli-auth?action=check_code_status&code=GRZ-ABC123
+```
+
+```
+POST /api/cli-auth
+```
+
+Action:
+
+```
+approve_session
+```
+
+---
+
+# AI Chat
+
+CLI mengirim request ke Cerebras menggunakan:
+
+```
+CEREBRAS_API_KEY
+```
+
+Response akan langsung ditampilkan di Terminal.
+
+---
+
+# Project Structure
 
 ```
 cli/
 ├── src/
-│   ├── index.ts - Entry point
-│   ├── store.ts - Local config storage
-│   ├── commands/
-│   │   ├── init.ts - Authentication & code polling
-│   │   ├── chat.ts - Chat dengan Cerebras
-│   │   └── help.ts - Help command
-│   └── api.ts - API client (optional)
-├── dist/ - Compiled JavaScript
+│   ├── index.ts
+│   ├── store.ts
+│   ├── api.ts
+│   └── commands/
+│       ├── init.ts
+│       ├── chat.ts
+│       └── help.ts
+├── dist/
 └── package.json
 ```
 
-## Commands
+---
 
-```bash
-garz-ai-cli init                          # Generate & validate code
-garz-ai-cli init --code=GRZ-ABC          # Use existing code
-garz-ai-cli chat                          # Start interactive chat
-garz-ai-cli chat "Your message"          # Send single message
-garz-ai-cli help                          # Show help
-```
+# Environment
 
-## Environment
+Untuk deployment (Vercel)
 
-Untuk Vercel deployment, set:
-```
-CEREBRAS_API_KEY = your_api_key
-```
-
-Untuk local dev, buat `.env.local`:
 ```
 CEREBRAS_API_KEY=your_api_key
 ```
 
-## Local Testing
+Untuk development
 
-```bash
-# Build
-cd cli && pnpm build
+```
+.env.local
 
-# Test commands
-node dist/index.js help
-node dist/index.js init
-node dist/index.js chat "Hello"
+CEREBRAS_API_KEY=your_api_key
 ```
 
-## Publishing
+---
+
+# Local Testing
 
 ```bash
-cd cli
+npm run build
+
+garz-ai-cli help
+
+garz-ai-cli init
+
+garz-ai-cli chat "Hello"
+```
+
+---
+
+# Publish Package
+
+```bash
 npm publish
 ```
 
-Users then install dengan:
+Install dari npm
+
 ```bash
 npm install -g garz-ai-cli
 ```
 
-## Docs
+---
 
-Lihat `cli/README.md` untuk dokumentasi lengkap.
+# Documentation
+
+Dokumentasi lengkap tersedia di:
+
+```
+cli/README.md
+```
+
+---
+
+Made with ❤️ by Garz AI
