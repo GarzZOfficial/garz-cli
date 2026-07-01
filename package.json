@@ -1,7 +1,11 @@
 {
-  "name": "my-project",
+  "name": "garz-ai-cli",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "main": "index.js",
+  "bin": {
+    "garz-ai-cli": "./index.js"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
