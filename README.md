@@ -1,13 +1,6 @@
-# ██████╗  █████╗ ██████╗ ███████╗     ██████╗██╗     ██╗
-# ██╔════╝ ██╔══██╗██╔══██╗╚══███╔╝    ██╔════╝██║     ██║
-# ██║  ███╗███████║██████╔╝  ███╔╝     ██║     ██║     ██║
-# ██║   ██║██╔══██║██╔══██╗ ███╔╝      ██║     ██║     ██║
-# ╚██████╔╝██║  ██║██║  ██║███████╗    ╚██████╗███████╗██║
-#  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝     ╚═════╝╚══════╝╚═╝
-
 # garz-ai-cli
 
-> **Terminal AI Chat Tool** — Chat langsung dengan Garz AI / Cerebras AI dari Terminal, CMD, PowerShell, Linux, macOS, maupun Termux.
+> **Terminal AI Chat Tool** — Chat langsung dengan Garz AI / CMD, PowerShell, Linux, macOS, maupun Termux.
 
 ---
 
