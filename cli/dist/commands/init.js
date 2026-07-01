@@ -12,31 +12,14 @@ function generateCode(): string {
   return code;
 }
 
-// ==========================================================================
-// NEW: FUNGSI DETAK JANTUNG (Menjaga status 'active: true' di Blok B API-mu)
-// ==========================================================================
-function startHeartbeat(token: string, websiteUrl: string) {
-  // Jalankan interval di background agar tidak mengganggu proses CLI utama
-  setInterval(async () => {
-    try {
-      await axios.post(`${websiteUrl}/api/cli-auth`, {
-        action: 'termux_heartbeat',
-        token: token,
-        errorLog: null
-      }, { timeout: 4000 });
-    } catch (err) {
-      // Di-silent agar tidak merusak tampilan terminal user saat chat
-    }
-  }, 25000); // Kirim setiap 25 detik (Aman di bawah batas limit 60 detik milikmu)
-}
-
 export async function initCommand(code: string = '', websiteUrl: string = 'https://garz-ai.vercel.app'): Promise<void> {
   try {
+    // Jika code tidak diberikan, generate baru
     let authCode = code;
     if (!authCode) {
       authCode = generateCode();
 
-      // Mendaftarkan kode baru ke server Next.js (Memicu Blok REGISTRASI KODE AWAL)
+      // Mendaftarkan kode baru ke server Next.js (Logika Sinkronisasi Jembatan Web)
       try {
         await axios.post(`${websiteUrl}/api/cli-auth`, {
           action: 'register_code',
@@ -46,7 +29,7 @@ export async function initCommand(code: string = '', websiteUrl: string = 'https
           timeout: 5000
         });
       } catch (regError) {
-        // Tetap lanjut polling jika terjadi gangguan minor jaringan
+        // Tetap lanjut polling jika terjadi gangguan minor
       }
 
       // Tampilan ASCII Art "GARZ CLI"
@@ -73,8 +56,8 @@ export async function initCommand(code: string = '', websiteUrl: string = 'https
 
     const spinner = ora(chalk.cyan('⏳ Polling server untuk konfirmasi kode...')).start();
 
-    // Polling sampai code disetujui di website (Memicu Blok A: TERMUX POLLING CHECKER)
-    let maxAttempts = 120; // 2 menit timeout
+    // Polling sampai code disetujui di website
+    let maxAttempts = 120; // 2 minutes
     let attempt = 0;
     let token = '';
     let approved = false;
@@ -95,11 +78,11 @@ export async function initCommand(code: string = '', websiteUrl: string = 'https
           break;
         }
       } catch (error) {
-        // Lanjutkan polling secara diam-diam jika terjadi galat jaringan sesaat
+        // Continue polling silently
       }
 
       attempt++;
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Jeda 1 detik
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait 1 second before retry
     }
 
     if (!approved) {
@@ -109,12 +92,9 @@ export async function initCommand(code: string = '', websiteUrl: string = 'https
       process.exit(1);
     }
 
-    // Mengamankan token yang valid dari server
-    const finalToken = token || 'GRZ-WEB-MEMBER-TOKEN-DEFAULT';
-
-    // Menyimpan data konfigurasi ke local store bawaan CLI-mu
+    // Save token to config
     store.setConfig({
-      token: finalToken,
+      token: token || authCode,
       websiteUrl,
       authCode,
       createdAt: new Date().toISOString(),
@@ -122,17 +102,10 @@ export async function initCommand(code: string = '', websiteUrl: string = 'https
 
     spinner.succeed();
     console.log(chalk.green('\n✓ Kode berhasil diverifikasi!'));
-    
-    // ==========================================================================
-    // SINKRONISASI NYATA: Jalankan detak jantung agar indikator web menyala hijau
-    // ==========================================================================
-    startHeartbeat(finalToken, websiteUrl);
-
     console.log(chalk.cyan('\nSekarang kamu bisa mulai chatting:'));
-    console.log(chalk.white('    $ garz-ai-cli chat'));
-    console.log(chalk.gray('    $ garz-ai-cli chat "Halo Garz AI!"'));
+    console.log(chalk.white('   $ garz-ai-cli chat'));
+    console.log(chalk.gray('   $ garz-ai-cli chat "Halo Garz AI!"'));
     console.log(chalk.gray('\n'));
-    
   } catch (error) {
     console.log(chalk.red('\n❌ Terjadi error'));
     if (error instanceof Error) {
